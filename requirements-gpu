@@ -1,0 +1,6 @@
+streamlit
+sentence-transformers
+transformers
+torch>=2.0.0+cu117; platform_system != 'Windows'  # replace with your CUDA build tag
+faiss-gpu
+PyPDF2
