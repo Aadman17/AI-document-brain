@@ -27,7 +27,6 @@ def load_models():
 
 
 def extract_text_from_pdf(pdf_file) -> str:
-    """Extract text from uploaded PDF file"""
     try:
         pdf_reader = PyPDF2.PdfReader(io.BytesIO(pdf_file.read()))
         text = ""
@@ -52,7 +51,6 @@ def chunk_text(text: str, chunk_size: int = 500) -> List[str]:
 
 
 def build_vector_index(texts: List[str], embedder) -> Tuple[faiss.Index, np.ndarray]:
-    """Create FAISS index from text embeddings"""
     if not texts:
         return None, None
 
@@ -74,7 +72,6 @@ def semantic_search(query: str, index: faiss.Index, texts: List[str],
 
 
 def summarize_text(text: str, summarizer, max_length: int = 150) -> str:
-    """Generate summary of text"""
     words = text.split()
     if len(words) < 50:
         return text
@@ -92,7 +89,6 @@ def summarize_text(text: str, summarizer, max_length: int = 150) -> str:
 
 
 def answer_question(question: str, context: str, qa_model) -> str:
-    """Answer questions based on document context"""
     try:
         context_words = context.split()[:512]
         context_truncated = " ".join(context_words)
