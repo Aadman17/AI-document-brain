@@ -111,7 +111,6 @@ def answer_question(question: str, context: str, qa_model) -> str:
 
 st.set_page_config(
     page_title="AI Document Brain",
-    page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -126,7 +125,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-st.title("🧠 AI Document Brain: Semantic Search + Auto-Summaries")
+st.title("AI Document Brain: Semantic Search + Auto-Summaries")
 st.markdown("Upload documents, build semantic search index, and query with natural language")
 
 if 'documents' not in st.session_state:
@@ -141,7 +140,7 @@ if 'models_loaded' not in st.session_state:
     st.session_state.models_loaded = False
 
 if not st.session_state.models_loaded:
-    with st.spinner("🔄 Loading AI models (this may take a minute on first run)..."):
+    with st.spinner("Loading AI models (this may take a minute on first run)..."):
         embedder, summarizer, qa_model = load_models()
         if embedder and summarizer and qa_model:
             st.session_state.embedder = embedder
@@ -153,7 +152,7 @@ if not st.session_state.models_loaded:
             st.stop()
 
 with st.sidebar:
-    st.header("📄 Document Upload")
+    st.header(" Document Upload")
 
     uploaded_files = st.file_uploader(
         "Upload PDFs or Text files",
@@ -180,7 +179,7 @@ with st.sidebar:
                     text = file.read().decode('utf-8', errors='ignore')
 
                 if len(text.strip()) < 50:
-                    st.warning(f"⚠️ {file.name} has very little text content")
+                    st.warning(f" {file.name} has very little text content")
                     continue
 
                 chunks = chunk_text(text)
@@ -205,7 +204,7 @@ with st.sidebar:
 
                 progress_bar.progress(1.0)
                 status_text.empty()
-                st.success(f"✅ Successfully indexed {len(all_chunks)} chunks from {len(uploaded_files)} documents!")
+                st.success(f"Successfully indexed {len(all_chunks)} chunks from {len(uploaded_files)} documents!")
             else:
                 st.error("No valid text content found in uploaded files.")
 
@@ -214,18 +213,18 @@ with st.sidebar:
 
     if st.session_state.index:
         st.info(
-            f"📊 **Status:** {len(st.session_state.chunks)} chunks indexed from {len(st.session_state.documents)} documents")
+            f" **Status:** {len(st.session_state.chunks)} chunks indexed from {len(st.session_state.documents)} documents")
 
     st.markdown("---")
 
-    if st.button("🗑️ Clear All Documents"):
+    if st.button("Clear All Documents"):
         st.session_state.documents = []
         st.session_state.chunks = []
         st.session_state.index = None
         st.session_state.doc_names = []
         st.rerun()
 
-tab1, tab2, tab3, tab4 = st.tabs(["🔍 Semantic Search", "📝 Summaries", "❓ Q&A", "📚 Documents"])
+tab1, tab2, tab3, tab4 = st.tabs([" Semantic Search", " Summaries", " Q&A", " Documents"])
 
 with tab1:
     st.header("Semantic Search")
@@ -259,16 +258,16 @@ with tab1:
                 with st.expander(f"**Result {i}** | Similarity Score: {1 / (1 + score):.3f}", expanded=(i == 1)):
                     st.write(text)
                     doc_idx = st.session_state.chunks.index(text)
-                    st.caption(f"📄 Source: **{st.session_state.doc_names[doc_idx]}**")
+                    st.caption(f" Source: **{st.session_state.doc_names[doc_idx]}**")
     else:
-        st.info("👈 Please upload documents and build the search index using the sidebar.")
+        st.info("Please upload documents and build the search index using the sidebar.")
 
 with tab2:
     st.header("Document Summaries")
 
     if st.session_state.documents:
         for doc in st.session_state.documents:
-            with st.expander(f"📄 {doc['name']}"):
+            with st.expander(f" {doc['name']}"):
                 col1, col2 = st.columns([1, 4])
 
                 with col1:
@@ -286,7 +285,7 @@ with tab2:
                         st.markdown("**Summary:**")
                         st.info(st.session_state[f"summary_{doc['name']}"])
     else:
-        st.info("👈 No documents uploaded yet. Use the sidebar to upload files.")
+        st.info("No documents uploaded yet. Use the sidebar to upload files.")
 
 with tab3:
     st.header("Question Answering")
@@ -318,20 +317,20 @@ with tab3:
             st.markdown("### Answer:")
             st.success(answer)
 
-            with st.expander("📖 View Context Used"):
+            with st.expander("View Context Used"):
                 for i, (text, _) in enumerate(results, 1):
                     st.markdown(f"**Chunk {i}:**")
                     st.text(text[:500] + "...")
                     st.markdown("---")
     else:
-        st.info("👈 Please upload documents and build the search index using the sidebar.")
+        st.info(" Please upload documents and build the search index using the sidebar.")
 
 with tab4:
     st.header("Uploaded Documents")
 
     if st.session_state.documents:
         for doc in st.session_state.documents:
-            with st.expander(f"📄 {doc['name']}"):
+            with st.expander(f" {doc['name']}"):
                 word_count = len(doc['text'].split())
                 char_count = len(doc['text'])
 
@@ -349,10 +348,10 @@ with tab4:
                     key=f"preview_{doc['name']}"
                 )
     else:
-        st.info("👈 No documents uploaded yet. Use the sidebar to upload files.")
+        st.info("No documents uploaded yet. Use the sidebar to upload files.")
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("### 🛠️ Tech Stack")
+st.sidebar.markdown("### Tech Stack")
 st.sidebar.markdown("""
 - **Embeddings:** all-MiniLM-L6-v2
 - **Vector Search:** FAISS
@@ -360,7 +359,7 @@ st.sidebar.markdown("""
 - **Q&A:** RoBERTa-SQuAD2
 """)
 
-st.sidebar.markdown("### 💡 Tips")
+st.sidebar.markdown("### Tips")
 st.sidebar.markdown("""
 - Upload multiple documents for richer search
 - Use natural language queries
